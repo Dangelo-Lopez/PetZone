@@ -1,0 +1,72 @@
+:root {
+  --bg: #f7f2e8;
+  --surface: #fff9f0;
+  --surface-strong: #e8ddcd;
+  --text: #5e5241;
+  --text-h: #362b20;
+  --muted: #827669;
+  --border: #d8cbbc;
+  --shadow: 0 20px 48px rgba(90, 72, 52, 0.12);
+  --brand1: #b8c2ad;
+  --brand2: #7d8876;
+  --brand3: #8c6a44;
+  --brand4: #5f4533;
+  --brand5: #c69f77;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+  font: 18px/1.7 var(--sans);
+  letter-spacing: 0.18px;
+  color: var(--text);
+  background: var(--bg);
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    font-size: 16px;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--heading);
+}
+
+p {
+  color: var(--muted);
+}
