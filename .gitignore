@@ -1,0 +1,16 @@
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Java / Maven
+backend/**/target/
+backend/**/.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db
