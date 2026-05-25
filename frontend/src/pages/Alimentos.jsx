@@ -8,14 +8,23 @@ export default function Alimentos({ currency }) {
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/productos")
+    fetch('http://localhost:8080/api/productos')
       .then(res => res.json())
       .then(data => {
-        setProductos(data);
+        console.log('Productos recibidos:', data);
+
+        const alimentos = data.filter(producto =>
+          producto.categoria &&
+          producto.categoria.trim().toLowerCase() === 'alimentos'
+        );
+
+        console.log('Alimentos filtrados:', alimentos);
+
+        setProductos(alimentos);
         setLoading(false);
       })
       .catch(err => {
-        console.error("Error cargando productos:", err);
+        console.error('Error cargando productos:', err);
         setLoading(false);
       });
   }, []);
@@ -29,14 +38,24 @@ export default function Alimentos({ currency }) {
 
       {loading ? (
         <p>Cargando productos...</p>
+      ) : productos.length === 0 ? (
+        <p>No hay alimentos disponibles.</p>
       ) : (
         <div className="product-grid">
           {productos.map(product => (
             <div key={product.id} className="product-card">
-              <div className="product-image-placeholder">🐾</div>
+              {product.imagen ? (
+                <img
+                  src={product.imagen}
+                  alt={product.nombre}
+                  className="product-image"
+                />
+              ) : (
+                <div className="product-image-placeholder">🐾</div>
+              )}
 
               <div className="product-info">
-                <span className="product-tag">Producto</span>
+                <span className="product-tag">Alimento</span>
                 <h3>{product.nombre}</h3>
                 <p>Producto disponible en tienda PetZone</p>
 
@@ -44,7 +63,11 @@ export default function Alimentos({ currency }) {
                   <span className="price">
                     {currency.code} {product.precio}
                   </span>
-                  <button onClick={() => addToCart(product)} className="button button-primary btn-small">
+
+                  <button
+                    onClick={() => addToCart(product)}
+                    className="button button-primary btn-small"
+                  >
                     Añadir
                   </button>
                 </div>

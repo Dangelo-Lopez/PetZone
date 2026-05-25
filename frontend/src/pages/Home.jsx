@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function Home({ t }) {
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/productos')
+      .then((res) => res.json())
+      .then((data) => setProductos(data))
+      .catch((error) => console.error('Error al cargar productos:', error));
+  }, []);
+
   return (
     <>
       <section className="hero-section" id="inicio">
@@ -18,6 +27,7 @@ export default function Home({ t }) {
             </a>
           </div>
         </div>
+
         <div className="hero-panel">
           <div className="hero-card card-feature">
             <span>Nuevo</span>
@@ -28,6 +38,27 @@ export default function Home({ t }) {
             <strong>+150</strong>
             <p>Productos seleccionados para tu mascota.</p>
           </div>
+        </div>
+      </section>
+
+      <section className="section-panel" id="productos-api">
+        <div className="section-header">
+          <p className="section-label">Productos desde Backend</p>
+          <h2>Productos disponibles</h2>
+        </div>
+
+        <div className="category-grid">
+          {productos.length === 0 ? (
+            <p>No hay productos disponibles.</p>
+          ) : (
+            productos.map((producto) => (
+              <article className="category-card" key={producto.id}>
+                <div className="category-icon">🐾</div>
+                <h3>{producto.nombre}</h3>
+                <p>Precio: ${producto.precio}</p>
+              </article>
+            ))
+          )}
         </div>
       </section>
 
@@ -43,11 +74,13 @@ export default function Home({ t }) {
             <h3>Alimentos</h3>
             <p>Pienso y snacks saludables para Perros, Gatos, Conejos y Aves.</p>
           </Link>
+
           <Link to="/accesorios" className="category-card" style={{ textDecoration: 'none' }}>
             <div className="category-icon">🛋️</div>
             <h3>Accesorios</h3>
             <p>Camas, collares, correas, juguetes y todo para el confort diario.</p>
           </Link>
+
           <Link to="/cuidado" className="category-card" style={{ textDecoration: 'none' }}>
             <div className="category-icon">🧼</div>
             <h3>Cuidado y Peluquería</h3>
@@ -67,10 +100,12 @@ export default function Home({ t }) {
             <h3>Sin login</h3>
             <p>Accede directamente a la tienda y navega sin barreras.</p>
           </article>
+
           <article className="feature-card">
             <h3>Envío rápido</h3>
             <p>Envío local en 24-48 horas para artículos esenciales.</p>
           </article>
+
           <article className="feature-card">
             <h3>Fácil navegación</h3>
             <p>Diseño adaptable que se acomoda al tamaño de pantalla.</p>

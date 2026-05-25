@@ -20,7 +20,17 @@ public class BffController {
 
     @GetMapping("/api/productos")
     public Object obtenerProductos() {
-        String url = "http://localhost:8082/productos";
+
+        String url = "http://ms-productos:8082/productos";
+
+        return restTemplate.getForObject(url, Object.class);
+    }
+
+    @GetMapping("/api/cuidados")
+    public Object obtenerCuidados() {
+
+        String url = "http://ms-productos:8082/cuidados";
+
         return restTemplate.getForObject(url, Object.class);
     }
 }

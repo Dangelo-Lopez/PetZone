@@ -1,0 +1,41 @@
+services:
+  ms-productos:
+    build: ./backend/ms-productos
+    container_name: petzone-ms-productos
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/petzone_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+
+  ms-auth:
+    build: ./backend/ms-auth
+    container_name: petzone-ms-auth
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/petzone_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ""
+
+  bff:
+    build: ./backend/bff
+    container_name: petzone-bff
+    restart: always
+    depends_on:
+      - ms-productos
+      - ms-auth
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: petzone-frontend
+    restart: always
+    depends_on:
+      - bff
+    ports:
+      - "5173:5173"

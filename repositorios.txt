@@ -1,0 +1,14 @@
+Repositorio principal:
+https://github.com/TU-USUARIO/PetZone
+
+Frontend:
+https://github.com/TU-USUARIO/PetZone/tree/main/frontend
+
+Backend BFF:
+https://github.com/TU-USUARIO/PetZone/tree/main/backend/bff
+
+Microservicio Auth:
+https://github.com/TU-USUARIO/PetZone/tree/main/backend/ms-auth
+
+Microservicio Productos:
+https://github.com/TU-USUARIO/PetZone/tree/main/backend/ms-productos

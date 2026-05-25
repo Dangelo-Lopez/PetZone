@@ -1,12 +1,12 @@
 # PetZone Fullstack
 
-Sistema Fullstack desarrollado utilizando arquitectura de microservicios con React, Spring Boot y MySQL.
+Sistema Fullstack desarrollado utilizando arquitectura de microservicios con React, Spring Boot, Docker y MySQL.
 
 ---
 
 # Descripción del Proyecto
 
-PetZone es una plataforma orientada a la gestión y visualización de productos para mascotas. El sistema fue desarrollado aplicando una arquitectura desacoplada basada en microservicios, permitiendo una solución más escalable, mantenible y organizada.
+PetZone es una plataforma orientada a la gestión y visualización de productos y servicios para mascotas. El sistema fue desarrollado aplicando una arquitectura desacoplada basada en microservicios, permitiendo una solución más escalable, mantenible y organizada.
 
 La solución implementa:
 
@@ -16,7 +16,9 @@ La solución implementa:
 * Microservicios independientes
 * Persistencia de datos con MySQL
 * APIs REST
-* Spring Security
+* Docker y Docker Compose
+* Context API para autenticación y carrito
+* Testing con JUnit y Vitest
 * Maven como gestor de dependencias
 
 ---
@@ -24,19 +26,34 @@ La solución implementa:
 # Arquitectura del Sistema
 
 ```text
-Frontend React
-        │
-        ▼
-BFF (8080)
-        │
- ┌───────────────┬────────────────┐
- ▼                               ▼
+Frontend React + Vite
+          │
+          ▼
+BFF / API Gateway (8080)
+          │
+ ┌────────────────┬─────────────────┐
+ ▼                                ▼
 MS-AUTH (8081)          MS-PRODUCTOS (8082)
-        │                               │
-        └───────────────┬───────────────┘
-                        ▼
-                  MySQL - petzone_db
+                                      │
+                                      ▼
+                              MySQL - petzone_db
 ```
+
+---
+
+# Arquitectura Implementada
+
+La aplicación fue desarrollada utilizando una arquitectura basada en microservicios desacoplados.
+
+Cada servicio tiene responsabilidades independientes:
+
+| Servicio | Responsabilidad |
+|---|---|
+| Frontend | Interfaz gráfica y experiencia de usuario |
+| BFF | Punto de entrada único para el frontend |
+| MS-AUTH | Gestión de autenticación |
+| MS-PRODUCTOS | Gestión de productos y servicios |
+| MySQL | Persistencia de datos |
 
 ---
 
@@ -48,12 +65,22 @@ PETZONE/
 ├── frontend/
 │   ├── src/
 │   ├── public/
+│   ├── Dockerfile
 │   ├── package.json
 │
-└── backend/
-    ├── bff/
-    ├── ms-auth/
-    └── ms-productos/
+├── backend/
+│   ├── bff/
+│   │   └── Dockerfile
+│   │
+│   ├── ms-auth/
+│   │   └── Dockerfile
+│   │
+│   └── ms-productos/
+│       └── Dockerfile
+│
+├── docker-compose.yml
+├── README.md
+└── repositorios.txt
 ```
 
 ---
@@ -65,6 +92,7 @@ PETZONE/
 * React
 * Vite
 * JavaScript
+* React Router
 * Context API
 * CSS
 
@@ -75,8 +103,8 @@ PETZONE/
 * Spring Web
 * Spring Security
 * Spring Data JPA
-* Maven
 * Hibernate
+* Maven
 
 ## Base de Datos
 
@@ -84,20 +112,63 @@ PETZONE/
 * XAMPP
 * phpMyAdmin
 
+## DevOps y Contenedores
+
+* Docker
+* Docker Compose
+* Git
+* GitHub
+
+---
+
+# Funcionalidades Implementadas
+
+## Frontend
+
+* Catálogo dinámico de productos
+* Productos cargados desde MySQL
+* Visualización de imágenes dinámicas
+* Carrito de compras
+* Login persistente
+* Navegación dinámica con React Router
+* Vista de accesorios
+* Vista de alimentos
+* Cotizador de peluquería
+* Protección de reservas para usuarios autenticados
+* Diseño responsive
+
+## Backend
+
+* APIs REST
+* Arquitectura desacoplada
+* Microservicios independientes
+* BFF para centralizar solicitudes
+* Persistencia con Spring Data JPA
+* Integración completa con MySQL
+
+## Servicios de Cuidado
+
+* Cotizador dinámico
+* Servicios por tipo de mascota
+* Selección por rango de peso
+* Cálculo automático de precios
+* Restricción de reservas sin login
+
 ---
 
 # Configuración de Puertos
 
-| Servicio     | Puerto |
-| ------------ | ------ |
-| Frontend     | 5173   |
-| BFF          | 8080   |
-| MS-AUTH      | 8081   |
-| MS-PRODUCTOS | 8082   |
+| Servicio | Puerto |
+|---|---|
+| Frontend | 5173 |
+| BFF | 8080 |
+| MS-AUTH | 8081 |
+| MS-PRODUCTOS | 8082 |
+| MySQL | 3306 |
 
 ---
 
-# Instalación y Ejecución
+# Ejecución Local
 
 ## Clonar el repositorio
 
@@ -107,7 +178,7 @@ git clone URL_DEL_REPOSITORIO
 
 ---
 
-## Frontend
+# Frontend
 
 ```bash
 cd frontend
@@ -123,7 +194,7 @@ http://localhost:5173
 
 ---
 
-## Backend - BFF
+# Backend - BFF
 
 ```bash
 cd backend/bff
@@ -138,7 +209,7 @@ http://localhost:8080
 
 ---
 
-## Backend - MS-AUTH
+# Backend - MS-AUTH
 
 ```bash
 cd backend/ms-auth
@@ -153,7 +224,7 @@ http://localhost:8081
 
 ---
 
-## Backend - MS-PRODUCTOS
+# Backend - MS-PRODUCTOS
 
 ```bash
 cd backend/ms-productos
@@ -168,21 +239,65 @@ http://localhost:8082
 
 ---
 
+# Ejecución con Docker
+
+## Levantar todos los servicios
+
+```bash
+docker compose up --build
+```
+
+---
+
+## Ver contenedores activos
+
+```bash
+docker ps
+```
+
+---
+
+## Detener servicios
+
+```bash
+docker compose down
+```
+
+---
+
 # Base de Datos
 
-Crear la base de datos:
+## Crear base de datos
 
 ```sql
 CREATE DATABASE petzone_db;
 ```
 
-Configuración utilizada:
+---
+
+## Configuración utilizada
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/petzone_db
 spring.datasource.username=root
 spring.datasource.password=
 ```
+
+---
+
+# Tablas Implementadas
+
+## producto
+
+Almacena productos dinámicos de la tienda.
+
+## servicio_cuidado
+
+Gestiona servicios de peluquería y cotización dinámica.
+
+## usuarios
+
+Gestiona usuarios autenticados del sistema.
 
 ---
 
@@ -193,6 +308,7 @@ spring.datasource.password=
 ```text
 GET /api/test
 GET /api/productos
+GET /api/cuidados
 ```
 
 ---
@@ -210,8 +326,23 @@ GET /auth/test
 ```text
 GET /productos
 POST /productos
-GET /productos/test
+
+GET /cuidados
+POST /cuidados
 ```
+
+---
+
+# Dockerización
+
+El sistema fue dockerizado utilizando contenedores independientes para:
+
+* Frontend React
+* BFF
+* Microservicio Auth
+* Microservicio Productos
+
+La orquestación se realiza mediante Docker Compose.
 
 ---
 
@@ -219,9 +350,10 @@ GET /productos/test
 
 ## Patrones de Diseño
 
-* MVC
+* MVC Pattern
 * Repository Pattern
-* Context Pattern
+* Context API Pattern
+* Component-Based Architecture
 * Singleton Pattern
 
 ## Patrones Arquitectónicos
@@ -232,21 +364,74 @@ GET /productos/test
 
 ---
 
+# Testing
+
+## Backend
+
+Pruebas unitarias implementadas con:
+
+* JUnit
+* Spring Boot Test
+
+Validaciones realizadas:
+
+* Contexto Spring Boot
+* Inicialización de microservicios
+
+---
+
+## Frontend
+
+Pruebas implementadas con:
+
+* Vitest
+* Testing Library
+
+Validaciones realizadas:
+
+* Renderizado básico
+* Ejecución correcta de componentes
+
+---
+
 # Seguridad
 
-El sistema implementa Spring Security en el microservicio de autenticación para gestionar el acceso a los endpoints y controlar la autenticación de usuarios.
+El sistema implementa mecanismos básicos de autenticación y control de acceso:
+
+* Validación de sesión mediante Context API
+* Persistencia de usuario con localStorage
+* Restricción de reservas para usuarios autenticados
+* Spring Security configurado en backend
 
 ---
 
 # Estado del Proyecto
 
+## Implementado
+
 * Frontend funcional
-* Arquitectura de microservicios implementada
-* Comunicación entre servicios operativa
-* Persistencia de datos en MySQL
+* Arquitectura de microservicios
+* Comunicación entre servicios
+* Persistencia en MySQL
 * APIs REST funcionales
-* Seguridad base implementada
-* Proyecto versionado en GitHub
+* Dockerización completa
+* Testing backend y frontend
+* Integración React + Spring Boot
+* Sistema de cuidado dinámico
+* Carrito de compras
+* Login persistente
+
+---
+
+# Mejoras Futuras
+
+* JWT real
+* Panel de administración
+* Reservas persistentes
+* Historial de compras
+* Integración de pagos
+* Despliegue cloud
+* CI/CD
 
 ---
 
@@ -254,4 +439,4 @@ El sistema implementa Spring Security en el microservicio de autenticación para
 
 * Dangelo López
 * Fernanda Lagos
-* Marco Maldonado 
+* Marco Maldonado
