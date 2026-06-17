@@ -8,14 +8,14 @@ export default function Alimentos({ currency }) {
   const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/productos')
+    fetch("http://localhost:8082/productos")
       .then(res => res.json())
       .then(data => {
         console.log('Productos recibidos:', data);
 
         const alimentos = data.filter(producto =>
           producto.categoria &&
-          producto.categoria.trim().toLowerCase() === 'alimentos'
+         producto.categoria?.toLowerCase() === 'alimentos'
         );
 
         console.log('Alimentos filtrados:', alimentos);
@@ -43,7 +43,10 @@ export default function Alimentos({ currency }) {
       ) : (
         <div className="product-grid">
           {productos.map(product => (
-            <div key={product.id} className="product-card">
+            <div
+              key={product.id}
+              className={`product-card ${(product.stock ?? 0) <= 0 ? 'product-card-out' : ''}`}
+            >
               {product.imagen ? (
                 <img
                   src={product.imagen}
@@ -60,15 +63,31 @@ export default function Alimentos({ currency }) {
                 <p>Producto disponible en tienda PetZone</p>
 
                 <div className="product-bottom">
-                  <span className="price">
-                    {currency.code} {product.precio}
-                  </span>
+                  <div className="price-stock-container">
+                    <span className="price">
+                      {currency.code} {product.precio}
+                    </span>
+                    {(product.stock ?? 0) > 5 ? (
+                      <span className="product-stock stock-high">
+                        Stock disponible: {product.stock} unidades
+                      </span>
+                    ) : (product.stock ?? 0) > 0 ? (
+                      <span className="product-stock stock-low">
+                        ¡Quedan solo {product.stock} unidades!
+                      </span>
+                    ) : (
+                      <span className="product-stock stock-empty">
+                        Producto agotado
+                      </span>
+                    )}
+                  </div>
 
                   <button
                     onClick={() => addToCart(product)}
-                    className="button button-primary btn-small"
+                    className={`button button-primary btn-small ${(product.stock ?? 0) <= 0 ? 'btn-disabled' : ''}`}
+                    disabled={(product.stock ?? 0) <= 0}
                   >
-                    Añadir
+                    {(product.stock ?? 0) <= 0 ? 'Agotado' : 'Añadir'}
                   </button>
                 </div>
               </div>

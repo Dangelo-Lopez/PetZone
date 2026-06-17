@@ -20,54 +20,65 @@ public class Producto {
 
     private String imagen;
 
+    private Integer stock;
+
     public Producto() {
     }
 
-    public Producto(Long id, String nombre, Double precio, String categoria, String imagen) {
+    public Producto(Long id, String nombre, Double precio, String categoria, String imagen, Integer stock) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.categoria = categoria;
         this.imagen = imagen;
+        this.stock = stock;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
     public String getCategoria() {
         return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 
     public String getImagen() {
         return imagen;
     }
 
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 }

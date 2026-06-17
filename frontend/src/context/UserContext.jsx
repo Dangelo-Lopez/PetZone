@@ -16,18 +16,49 @@ export const UserProvider = ({ children }) => {
     }
   }, [user]);
 
-  const login = (email, password) => {
-    // Simular un inicio de sesión
-    setTimeout(() => {
-      setUser({ name: email.split('@')[0], email });
-    }, 500);
+  const login = async (email, password) => {
+    const response = await fetch('http://localhost:8081/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setUser(data.user);
+      return { success: true, message: data.message };
+    }
+
+    return { success: false, message: data.message };
   };
 
-  const register = (name, email, password) => {
-    // Simular un registro
-    setTimeout(() => {
-      setUser({ name, email });
-    }, 500);
+  const register = async (nombre, email, password, direccion = '', telefono = '') => {
+    const response = await fetch('http://localhost:8081/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nombre,
+        email,
+        password,
+        direccion,
+        telefono,
+        rol: 'USER',
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setUser(data.user);
+      return { success: true, message: data.message };
+    }
+
+    return { success: false, message: data.message };
   };
 
   const logout = () => {

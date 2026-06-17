@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useState, useContext, useEffect } from 'react'
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 import './App.css'
 
 import Home from './pages/Home'
@@ -8,9 +8,11 @@ import Accesorios from './pages/Accesorios'
 import Cuidado from './pages/Cuidado'
 import Login from './pages/Login'
 import Cart from './pages/Cart'
+import Perfil from './pages/Perfil'
+import Admin from './pages/Admin'
 import { CartProvider, CartContext } from './context/CartContext'
 import { UserProvider, UserContext } from './context/UserContext'
-import { useContext } from 'react'
+import { ThemeProvider, ThemeContext } from './context/ThemeContext'
 
 const translations = {
   es: {
@@ -72,6 +74,18 @@ const currencyList = [
   { code: 'CLP', labelES: 'Peso CLP', labelEN: 'Chilean peso' },
 ]
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, [pathname]);
+
+  return null;
+}
+
 function AppRouter() {
   const [language, setLanguage] = useState('es')
   const [currencyCode, setCurrencyCode] = useState('USD')
@@ -80,6 +94,7 @@ function AppRouter() {
 
   const { getCartCount } = useContext(CartContext)
   const { user, logout } = useContext(UserContext)
+  const { isDark, toggleTheme } = useContext(ThemeContext)
 
   const t = translations[language] || translations.en
   const currentCurrency = currencyList.find((item) => item.code === currencyCode) || currencyList[0]
@@ -109,6 +124,7 @@ function AppRouter() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="app-shell">
         <header className="topbar">
           <div className="brand">
@@ -126,15 +142,32 @@ function AppRouter() {
           </nav>
           <div className="topbar-actions">
             {user ? (
-              <div className="user-menu">
-                <span className="user-greeting">Hola, {user.name}</span>
-                <button onClick={logout} className="logout-btn">Salir</button>
+              <div className="user-area">
+                <Link to="/perfil" className="user-avatar-button" title="Ir a Mi Perfil">
+                  {user?.fotoPerfil ? (
+                    <img
+                      src={user.fotoPerfil}
+                      alt={user.nombre}
+                      className="navbar-avatar"
+                    />
+                  ) : (
+                    <span className="navbar-avatar-fallback">👤</span>
+                  )}
+                </Link>
+                {user.rol === 'ADMIN' && (
+                  <Link to="/admin" className="admin-link">
+                    Administración
+                  </Link>
+                )}
               </div>
             ) : (
-              <a href="/login" className="login-btn">
+              <Link to="/login" className="login-btn">
                 <span className="icon">👤</span> Iniciar Sesión
-              </a>
+              </Link>
             )}
+            <button onClick={toggleTheme} className="theme-btn" title={isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}>
+              {isDark ? '☀︎' : '⏾'}
+            </button>
             <a href="/cart" className="cart-btn">
               <span className="icon">🛒</span>
               {getCartCount() > 0 && <span className="cart-badge">{getCartCount()}</span>}
@@ -150,6 +183,8 @@ function AppRouter() {
             <Route path="/cuidado" element={<Cuidado currency={currentCurrency} />} />
             <Route path="/login" element={<Login t={t} />} />
             <Route path="/cart" element={<Cart currency={currentCurrency} />} />
+            <Route path="/perfil" element={<Perfil />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
 
@@ -170,52 +205,9 @@ function AppRouter() {
             </div>
           </div>
 
-          <div className="footer-config">
-            <div className="footer-config-group">
-              <span>{t.languageLabel}: {languageLabel ? (language === 'es' ? languageLabel.labelES : languageLabel.labelEN) : 'Español'}</span>
-              <button className="select-button" onClick={toggleLanguageOpen}>
-                {language === 'es' ? 'Seleccionar idioma' : 'Select language'}
-              </button>
-              {languageOpen && (
-                <ul className="select-menu" role="listbox">
-                  {languageList.map((option) => (
-                    <li key={option.code}>
-                      <button type="button" onClick={() => selectLanguage(option.code)}>
-                        {language === 'es' ? option.labelES : option.labelEN}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <div className="footer-config-group">
-              <span>{t.currencyLabel}: {currentCurrency.code} — {currencyLabel}</span>
-              <button className="select-button" onClick={toggleCurrencyOpen}>
-                {language === 'es' ? 'Seleccionar moneda' : 'Select currency'}
-              </button>
-              {currencyOpen && (
-                <ul className="select-menu" role="listbox">
-                  {currencyList.map((option) => (
-                    <li key={option.code}>
-                      <button type="button" onClick={() => selectCurrency(option.code)}>
-                        {language === 'es' ? option.labelES : option.labelEN} ({option.code})
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-
           <div className="footer-note">
             <p>
               {t.questions} <a href="mailto:contacto@petzone.com">contacto@petzone.com</a>
-            </p>
-            <p>
-              {language === 'es'
-                ? `Precios mostrados en ${currentCurrency.code}`
-                : `Prices shown in ${currentCurrency.code}`}
             </p>
             <p>{t.copyright}</p>
           </div>
@@ -227,11 +219,13 @@ function AppRouter() {
 
 function App() {
   return (
-    <UserProvider>
-      <CartProvider>
-        <AppRouter />
-      </CartProvider>
-    </UserProvider>
+    <ThemeProvider>
+      <UserProvider>
+        <CartProvider>
+          <AppRouter />
+        </CartProvider>
+      </UserProvider>
+    </ThemeProvider>
   )
 }
 

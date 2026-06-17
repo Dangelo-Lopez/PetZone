@@ -1,27 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 :root {
-  --bg: #f7f2e8;
-  --surface: #fff9f0;
-  --surface-strong: #e8ddcd;
-  --text: #5e5241;
-  --text-h: #362b20;
-  --muted: #827669;
-  --border: #d8cbbc;
-  --shadow: 0 20px 48px rgba(90, 72, 52, 0.12);
-  --brand1: #b8c2ad;
-  --brand2: #7d8876;
-  --brand3: #8c6a44;
-  --brand4: #5f4533;
-  --brand5: #c69f77;
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --bg: #fdfbf7;
+  --surface: #ffffff;
+  --surface-strong: #f4edd4;
+  --text: #2f2322;
+  --text-h: #170d0c;
+  --muted: #5e4f4d;
+  --border: #e6dac6;
+  --shadow: 0 8px 24px rgba(42, 33, 28, 0.04), 0 1px 4px rgba(42, 33, 28, 0.02);
+  --shadow-hover: 0 20px 40px rgba(42, 33, 28, 0.1), 0 4px 12px rgba(42, 33, 28, 0.03);
+  --brand1: #d2dbcb;
+  --brand2: #7c936e;
+  --brand3: #a27244;
+  --brand4: #634335;
+  --brand5: #d4a373;
+
+  /* Premium Component Customizations */
+  --topbar-bg: linear-gradient(180deg, #443126 0%, #302018 100%);
+  --topbar-border: rgba(255, 255, 255, 0.1);
+  --topbar-text: #fff6ee;
+  --topbar-text-hover: #ffdaaa;
+  --topbar-text-muted: #cbbba8;
+
+  --footer-bg: linear-gradient(135deg, #241a15 0%, #120c09 100%);
+  --footer-text: #e6dac6;
+  --footer-border: rgba(255, 255, 255, 0.05);
+  --select-menu-bg: #fffbf7;
+  --btn-bg: #ffffff;
+  --btn-border: #e6dac6;
+  --btn-shadow: 0 4px 12px rgba(42, 33, 28, 0.05);
+  --btn-hover-bg: #fdf9f2;
+  --brand-glow: rgba(99, 67, 53, 0.18);
+  --card-feature-bg: linear-gradient(135deg, #fdf9f5 0%, #f5e9d9 100%);
+
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --heading: 'Outfit', system-ui, -apple-system, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
-  font: 18px/1.7 var(--sans);
+  font: 17px/1.7 var(--sans);
   letter-spacing: 0.18px;
   color: var(--text);
   background: var(--bg);
   color-scheme: light;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.dark-theme {
+  --bg: #0f0b0a;
+  --surface: #1a1412;
+  --surface-strong: #241d1a;
+  --text: #ece5dd;
+  --text-h: #ffffff;
+  --muted: #b5a89b;
+  --border: #29201b;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 2px 10px rgba(0, 0, 0, 0.25);
+  --shadow-hover: 0 24px 48px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.35);
+  --brand1: #384232;
+  --brand2: #546a49;
+  --brand3: #bd8654;
+  --brand4: #f3a758;
+  --brand5: #dca064;
+
+  /* Premium Component Customizations for Dark Mode */
+  --topbar-bg: linear-gradient(180deg, #251b14 0%, #17100b 100%);
+  --topbar-border: rgba(255, 255, 255, 0.06);
+  --footer-bg: linear-gradient(135deg, #090706 0%, #030202 100%);
+  --footer-text: #b5a89b;
+  --footer-border: rgba(255, 255, 255, 0.03);
+  --select-menu-bg: #1a1412;
+  --btn-bg: #241d1a;
+  --btn-border: #332924;
+  --btn-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --btn-hover-bg: #2f2621;
+  --brand-glow: rgba(243, 167, 88, 0.25);
+  --card-feature-bg: linear-gradient(135deg, #241d1a 0%, #1a1412 100%);
+  color-scheme: dark;
 }
 
 @media (max-width: 1024px) {

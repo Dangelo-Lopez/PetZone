@@ -1,59 +1,62 @@
 # PetZone Fullstack
 
-Sistema Fullstack desarrollado utilizando arquitectura de microservicios con React, Spring Boot, Docker y MySQL.
+Sistema Fullstack desarrollado con una arquitectura basada en microservicios utilizando **React, Spring Boot, MySQL y Docker**. La aplicación está orientada a la gestión de productos y servicios para mascotas, incorporando autenticación, panel administrativo, carrito de compras, control de stock y carga de imágenes.
 
 ---
 
 # Descripción del Proyecto
 
-PetZone es una plataforma orientada a la gestión y visualización de productos y servicios para mascotas. El sistema fue desarrollado aplicando una arquitectura desacoplada basada en microservicios, permitiendo una solución más escalable, mantenible y organizada.
+PetZone es una plataforma web que permite visualizar, administrar y adquirir productos para mascotas, además de cotizar servicios de cuidado y peluquería.
 
-La solución implementa:
+El proyecto fue desarrollado utilizando una arquitectura desacoplada basada en microservicios, lo que facilita su mantenimiento, escalabilidad y modularidad.
 
-* Frontend desarrollado con React y Vite
-* Backend basado en Spring Boot
-* Patrón Backend For Frontend (BFF)
-* Microservicios independientes
-* Persistencia de datos con MySQL
-* APIs REST
-* Docker y Docker Compose
-* Context API para autenticación y carrito
-* Testing con JUnit y Vitest
-* Maven como gestor de dependencias
+Entre sus principales características destacan:
+
+* Frontend desarrollado con React + Vite.
+* Backend construido con Spring Boot.
+* Patrón Backend For Frontend (BFF).
+* Microservicios independientes para autenticación y productos.
+* Persistencia de datos con MySQL.
+* APIs REST.
+* Docker y Docker Compose.
+* Context API para autenticación y carrito.
+* Gestión de imágenes para perfiles y productos.
+* Panel de administración completo.
+* Pruebas automatizadas con Vitest y JUnit.
 
 ---
 
 # Arquitectura del Sistema
 
 ```text
-Frontend React + Vite
-          │
-          ▼
-BFF / API Gateway (8080)
-          │
- ┌────────────────┬─────────────────┐
- ▼                                ▼
-MS-AUTH (8081)          MS-PRODUCTOS (8082)
-                                      │
-                                      ▼
-                              MySQL - petzone_db
+                 React + Vite
+                      │
+                      ▼
+             BFF / API Gateway
+                 (Puerto 8080)
+                      │
+        ┌─────────────┴─────────────┐
+        ▼                           ▼
+ MS-AUTH (8081)             MS-PRODUCTOS (8082)
+        │                           │
+        └─────────────┬─────────────┘
+                      ▼
+                MySQL petzone_db
 ```
 
 ---
 
 # Arquitectura Implementada
 
-La aplicación fue desarrollada utilizando una arquitectura basada en microservicios desacoplados.
+Cada componente del sistema posee responsabilidades independientes.
 
-Cada servicio tiene responsabilidades independientes:
-
-| Servicio | Responsabilidad |
-|---|---|
-| Frontend | Interfaz gráfica y experiencia de usuario |
-| BFF | Punto de entrada único para el frontend |
-| MS-AUTH | Gestión de autenticación |
-| MS-PRODUCTOS | Gestión de productos y servicios |
-| MySQL | Persistencia de datos |
+| Servicio     | Función                                |
+| ------------ | -------------------------------------- |
+| Frontend     | Interfaz gráfica de usuario            |
+| BFF          | Punto de entrada para el frontend      |
+| MS-AUTH      | Gestión de usuarios y autenticación    |
+| MS-PRODUCTOS | Gestión de productos, imágenes y stock |
+| MySQL        | Persistencia de la información         |
 
 ---
 
@@ -63,20 +66,15 @@ Cada servicio tiene responsabilidades independientes:
 PETZONE/
 │
 ├── frontend/
-│   ├── src/
 │   ├── public/
-│   ├── Dockerfile
+│   ├── src/
 │   ├── package.json
+│   └── Dockerfile
 │
 ├── backend/
 │   ├── bff/
-│   │   └── Dockerfile
-│   │
 │   ├── ms-auth/
-│   │   └── Dockerfile
-│   │
 │   └── ms-productos/
-│       └── Dockerfile
 │
 ├── docker-compose.yml
 ├── README.md
@@ -92,7 +90,7 @@ PETZONE/
 * React
 * Vite
 * JavaScript
-* React Router
+* React Router DOM
 * Context API
 * CSS
 
@@ -112,65 +110,112 @@ PETZONE/
 * XAMPP
 * phpMyAdmin
 
-## DevOps y Contenedores
+## DevOps
 
 * Docker
 * Docker Compose
 * Git
 * GitHub
 
+## Testing
+
+* Vitest
+* React Testing Library
+* JUnit
+* Spring Boot Test
+
 ---
 
 # Funcionalidades Implementadas
 
-## Frontend
+## Gestión de Usuarios
 
-* Catálogo dinámico de productos
-* Productos cargados desde MySQL
-* Visualización de imágenes dinámicas
-* Carrito de compras
-* Login persistente
-* Navegación dinámica con React Router
-* Vista de accesorios
-* Vista de alimentos
-* Cotizador de peluquería
-* Protección de reservas para usuarios autenticados
-* Diseño responsive
+* Registro de usuarios.
+* Inicio de sesión.
+* Persistencia de sesión.
+* Edición del perfil.
+* Cambio de contraseña.
+* Actualización de teléfono.
+* Actualización de dirección.
+* Gestión de fotografía de perfil.
+* Subida de imágenes desde el computador.
+* Visualización de avatar personalizado en la barra de navegación.
 
-## Backend
+---
 
-* APIs REST
-* Arquitectura desacoplada
-* Microservicios independientes
-* BFF para centralizar solicitudes
-* Persistencia con Spring Data JPA
-* Integración completa con MySQL
+## Gestión de Productos
+
+* Catálogo dinámico conectado a MySQL.
+* CRUD completo de productos.
+* Carga de imágenes desde el computador.
+* Visualización automática de imágenes.
+* Clasificación por categorías.
+* Edición desde el panel administrativo.
+* Eliminación de productos.
+* Gestión de stock disponible.
+* Indicador de productos agotados.
+
+---
+
+## Carrito de Compras
+
+* Agregar productos.
+* Eliminar productos.
+* Modificar cantidades.
+* Cálculo automático del total.
+* Persistencia mediante LocalStorage.
+* Validación de stock antes de agregar productos.
+* Descuento automático del stock al finalizar una compra.
+* Bloqueo de compras cuando no existe stock suficiente.
+
+---
+
+## Panel Administrativo
+
+Acceso exclusivo para usuarios con rol **ADMIN**.
+
+Permite:
+
+* Crear productos.
+* Editar productos.
+* Eliminar productos.
+* Modificar precios.
+* Modificar categorías.
+* Modificar stock.
+* Subir imágenes de productos.
+* Crear usuarios.
+* Editar usuarios.
+* Eliminar usuarios.
+* Cambiar roles entre `USER` y `ADMIN`.
+* Administrar la información general del sistema.
+
+---
 
 ## Servicios de Cuidado
 
-* Cotizador dinámico
-* Servicios por tipo de mascota
-* Selección por rango de peso
-* Cálculo automático de precios
-* Restricción de reservas sin login
+* Cotizador dinámico.
+* Selección por tipo de mascota.
+* Selección por rango de peso.
+* Cálculo automático del precio.
+* Restricción de reservas para usuarios autenticados.
 
 ---
 
 # Configuración de Puertos
 
-| Servicio | Puerto |
-|---|---|
-| Frontend | 5173 |
-| BFF | 8080 |
-| MS-AUTH | 8081 |
-| MS-PRODUCTOS | 8082 |
-| MySQL | 3306 |
+| Servicio     | Puerto |
+| ------------ | ------ |
+| Frontend     | 5173   |
+| BFF          | 8080   |
+| MS-AUTH      | 8081   |
+| MS-PRODUCTOS | 8082   |
+| MySQL        | 3306   |
 
 ---
 
-# Ejecución Local
+# Ejecución del Proyecto
 
-## Clonar el repositorio
+## Clonar repositorio
 
 ```bash
 git clone URL_DEL_REPOSITORIO
@@ -178,7 +223,7 @@ git clone URL_DEL_REPOSITORIO
 
 ---
 
-# Frontend
+## Frontend
 
 ```bash
 cd frontend
@@ -188,13 +233,13 @@ npm run dev
 
 Disponible en:
 
-```text
+```
 http://localhost:5173
 ```
 
 ---
 
-# Backend - BFF
+## Backend BFF
 
 ```bash
 cd backend/bff
@@ -203,13 +248,13 @@ cd backend/bff
 
 Disponible en:
 
-```text
+```
 http://localhost:8080
 ```
 
 ---
 
-# Backend - MS-AUTH
+## Backend MS-AUTH
 
 ```bash
 cd backend/ms-auth
@@ -218,13 +263,13 @@ cd backend/ms-auth
 
 Disponible en:
 
-```text
+```
 http://localhost:8081
 ```
 
 ---
 
-# Backend - MS-PRODUCTOS
+## Backend MS-PRODUCTOS
 
 ```bash
 cd backend/ms-productos
@@ -233,21 +278,19 @@ cd backend/ms-productos
 
 Disponible en:
 
-```text
+```
 http://localhost:8082
 ```
 
 ---
 
-# Ejecución con Docker
+# Docker
 
-## Levantar todos los servicios
+## Construir y levantar los servicios
 
 ```bash
 docker compose up --build
 ```
-
----
 
 ## Ver contenedores activos
 
@@ -255,9 +298,7 @@ docker compose up --build
 docker ps
 ```
 
----
-
-## Detener servicios
+## Detener los servicios
 
 ```bash
 docker compose down
@@ -267,15 +308,13 @@ docker compose down
 
 # Base de Datos
 
-## Crear base de datos
+Crear la base de datos:
 
 ```sql
 CREATE DATABASE petzone_db;
 ```
 
----
-
-## Configuración utilizada
+Configuración utilizada:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/petzone_db
@@ -285,19 +324,37 @@ spring.datasource.password=
 
 ---
 
-# Tablas Implementadas
-
-## producto
-
-Almacena productos dinámicos de la tienda.
-
-## servicio_cuidado
-
-Gestiona servicios de peluquería y cotización dinámica.
+# Tablas Principales
 
 ## usuarios
 
-Gestiona usuarios autenticados del sistema.
+Contiene la información de los usuarios registrados:
+
+* Nombre
+* Correo electrónico
+* Contraseña cifrada
+* Rol
+* Teléfono
+* Dirección
+* Foto de perfil
+
+---
+
+## producto
+
+Contiene:
+
+* Nombre
+* Precio
+* Categoría
+* Stock
+* Imagen del producto
+
+---
+
+## servicio_cuidado
+
+Gestiona la información utilizada por el cotizador dinámico de servicios.
 
 ---
 
@@ -305,133 +362,237 @@ Gestiona usuarios autenticados del sistema.
 
 ## BFF
 
-```text
+```
 GET /api/test
 GET /api/productos
 GET /api/cuidados
 ```
 
----
-
 ## MS-AUTH
 
-```text
-GET /auth/test
 ```
+POST /auth/register
+POST /auth/login
 
----
+GET /auth/usuarios
+PUT /auth/usuarios/{id}
+PATCH /auth/usuarios/{id}/rol
+DELETE /auth/usuarios/{id}
+
+POST /auth/usuarios/{id}/foto
+```
 
 ## MS-PRODUCTOS
 
-```text
+```
 GET /productos
 POST /productos
+PUT /productos/{id}
+DELETE /productos/{id}
 
-GET /cuidados
-POST /cuidados
+PATCH /productos/{id}/descontar-stock
+
+POST /productos/upload
 ```
 
 ---
 
 # Dockerización
 
-El sistema fue dockerizado utilizando contenedores independientes para:
+El proyecto utiliza contenedores independientes para:
 
-* Frontend React
-* BFF
-* Microservicio Auth
-* Microservicio Productos
+* Frontend React.
+* Backend For Frontend.
+* Microservicio de autenticación.
+* Microservicio de productos.
+* Base de datos MySQL.
 
 La orquestación se realiza mediante Docker Compose.
 
 ---
 
-# Patrones y Arquitectura Implementados
+# Patrones Utilizados
 
 ## Patrones de Diseño
 
-* MVC Pattern
+* MVC
 * Repository Pattern
-* Context API Pattern
+* Singleton
+* Context API
 * Component-Based Architecture
-* Singleton Pattern
 
 ## Patrones Arquitectónicos
 
-* Arquitectura en capas
+* Arquitectura en Capas
 * Backend For Frontend (BFF)
-* Arquitectura basada en microservicios
+* Arquitectura basada en Microservicios
 
 ---
+
+# Arquetipos del Proyecto
+
+La solución PetZone fue diseñada utilizando una arquitectura basada en microservicios, donde cada componente cumple una responsabilidad específica y se comunica mediante APIs REST.
+
+## Frontend
+
+Desarrollado con React y Vite, proporciona la interfaz gráfica para los usuarios finales y el panel de administración. Consume los servicios expuestos por el Backend For Frontend (BFF).
+
+## Backend For Frontend (BFF)
+
+Actúa como punto de entrada único para el frontend, centralizando las solicitudes y coordinando la comunicación con los distintos microservicios. Esta capa simplifica la lógica del cliente y desacopla la interfaz de usuario de los servicios internos.
+
+## Microservicio de Autenticación (MS-AUTH)
+
+Responsable de la gestión de usuarios, autenticación y administración de perfiles. Entre sus funciones se incluyen:
+
+- Registro e inicio de sesión.
+- Edición de datos personales.
+- Gestión de roles (`USER` y `ADMIN`).
+- Actualización de fotografías de perfil.
+- Administración de credenciales y seguridad.
+
+## Microservicio de Productos (MS-PRODUCTOS)
+
+Encargado de la administración de los productos de la tienda y del control de inventario. Sus principales responsabilidades son:
+
+- Crear, editar y eliminar productos.
+- Gestionar categorías y precios.
+- Administrar el stock disponible.
+- Gestionar imágenes de productos.
+- Descontar automáticamente el stock cuando se realiza una compra.
+
+## Base de Datos MySQL
+
+Centraliza el almacenamiento persistente de la información utilizada por el sistema, incluyendo usuarios, productos, servicios y demás datos necesarios para el funcionamiento de la plataforma.
+
+---
+
+# Estrategia de Branching
+
+Para el desarrollo del proyecto se utilizó una estrategia de control de versiones basada en Git, con el objetivo de mantener una organización clara del código fuente y facilitar el trabajo colaborativo.
+
+## Rama principal
+
+- **main:** contiene la versión estable del proyecto y representa el código listo para entrega o despliegue.
+
+## Ramas de funcionalidades
+
+Durante el desarrollo se recomienda utilizar ramas independientes para implementar nuevas funcionalidades o correcciones sin afectar la estabilidad del proyecto principal.
+
+Ejemplos:
+
+- `feature/login`
+- `feature/admin-panel`
+- `feature/product-images`
+- `feature/stock-management`
+- `feature/profile-edit`
+
+## Ramas de corrección
+
+Para solucionar errores específicos se pueden utilizar ramas del tipo:
+
+- `bugfix/login-validation`
+- `bugfix/cart-stock`
+- `bugfix/profile-upload`
+
+## Flujo de trabajo
+
+1. Crear una nueva rama a partir de `main`.
+2. Desarrollar y probar la funcionalidad correspondiente.
+3. Realizar los commits necesarios documentando los cambios.
+4. Integrar la rama al proyecto principal mediante un proceso de revisión.
+5. Mantener siempre `main` como la versión estable del sistema.
+
+Esta estrategia permite mantener un historial de cambios organizado, reducir conflictos durante el desarrollo y facilitar la incorporación de nuevas funcionalidades de manera controlada.
 
 # Testing
 
 ## Backend
 
-Pruebas unitarias implementadas con:
+Se implementaron pruebas unitarias utilizando:
 
 * JUnit
 * Spring Boot Test
 
-Validaciones realizadas:
+Validando:
 
-* Contexto Spring Boot
-* Inicialización de microservicios
-
----
+* Inicialización correcta de los microservicios.
+* Carga del contexto de Spring Boot.
 
 ## Frontend
 
-Pruebas implementadas con:
+Se implementaron pruebas automatizadas con:
 
 * Vitest
-* Testing Library
+* React Testing Library
 
-Validaciones realizadas:
+Cobertura de pruebas:
 
-* Renderizado básico
-* Ejecución correcta de componentes
+* Aplicación principal.
+* Inicio de sesión.
+* Perfil de usuario.
+* Carrito de compras.
+* Contexto del carrito.
+* Panel administrativo.
+* Gestión de productos.
+* Gestión de usuarios.
+* Validación de stock.
+
+**Total implementado: 36 pruebas automatizadas exitosas.**
 
 ---
 
 # Seguridad
 
-El sistema implementa mecanismos básicos de autenticación y control de acceso:
+El sistema incorpora mecanismos básicos de seguridad:
 
-* Validación de sesión mediante Context API
-* Persistencia de usuario con localStorage
-* Restricción de reservas para usuarios autenticados
-* Spring Security configurado en backend
+* Persistencia de sesión mediante Context API.
+* Almacenamiento local con LocalStorage.
+* Contraseñas cifradas utilizando BCrypt.
+* Restricción de acceso al panel administrativo por rol.
+* Protección de reservas para usuarios autenticados.
+* Configuración de Spring Security.
+* Validación de stock antes de procesar compras.
 
 ---
 
-# Estado del Proyecto
+# Estado Actual del Proyecto
 
 ## Implementado
 
-* Frontend funcional
-* Arquitectura de microservicios
-* Comunicación entre servicios
-* Persistencia en MySQL
-* APIs REST funcionales
-* Dockerización completa
-* Testing backend y frontend
-* Integración React + Spring Boot
-* Sistema de cuidado dinámico
-* Carrito de compras
-* Login persistente
+* Frontend completamente funcional.
+* Arquitectura de microservicios.
+* Backend For Frontend.
+* Integración React + Spring Boot + MySQL.
+* Sistema de autenticación.
+* Gestión de perfiles.
+* Subida de imágenes para perfiles.
+* CRUD completo de productos.
+* CRUD completo de usuarios.
+* Gestión de roles.
+* Panel administrativo.
+* Carrito de compras.
+* Control automático de stock.
+* Indicador de productos agotados.
+* Persistencia de datos.
+* Dockerización.
+* Suite de pruebas automatizadas.
+* Diseño responsive.
+* Soporte para tema claro y oscuro.
 
 ---
 
 # Mejoras Futuras
 
-* JWT real
-* Panel de administración
-* Reservas persistentes
-* Historial de compras
-* Integración de pagos
-* Despliegue cloud
-* CI/CD
+* Implementación de JWT completo.
+* Historial de compras.
+* Pasarela de pagos real.
+* Gestión persistente de pedidos.
+* Notificaciones por correo.
+* Despliegue en servicios cloud.
+* Pipeline CI/CD.
+* Recuperación de contraseña.
+* Auditoría de acciones administrativas.
 
 ---
 
