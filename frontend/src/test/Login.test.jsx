@@ -8,6 +8,7 @@ function renderLogin() {
     const login = vi.fn();
     const register = vi.fn();
 
+
     render(
         <MemoryRouter>
             <UserContext.Provider value={{ login, register }}>

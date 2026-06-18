@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { UseContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
+
 export default function Login({ t }) {
   const [activeTab, setActiveTab] = useState('login');
   const { login, register } = useContext(UserContext);
   const navigate = useNavigate();
-  const { isDark } = useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
+  const isDark = theme?.isDark ?? false;
 
   const [formData, setFormData] = useState({
     name: '',
